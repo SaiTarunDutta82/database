@@ -55,7 +55,7 @@ public class userInformationServices
             userObjects.Add(userObject);
         }
 
-        // Serialize the array of JObject into a JSON string
+        // Serialize the array of JObject into aUpdateUserAsPrimary JSON string
         string jsonUserDetails = JsonConvert.SerializeObject(userObjects);
 
         return jsonUserDetails;
