@@ -15,7 +15,7 @@ private static DatabaseConnection? instance;
     List<object[]> userDetailsArray = new List<object[]>();
     
     // Private connection string
-    private string connectionString ="Server=tcp:dogmathgamedatabase.database.windows.net,1433;Initial Catalog=MATHGAMEDATABASE;Persist Security Info=False;User ID=mathgame;Password=Sqldatabase123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+    private string connectionString ="Server=tcp:dogmathgamedatabase.database.windows.net,1433;Initial Catalog=MATHGAMEDATABASE;Persist Security Info=False;User ID=mathgame;Password=Sqldatabase@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
     // Private SQL connection object
     private SqlConnection connection;
