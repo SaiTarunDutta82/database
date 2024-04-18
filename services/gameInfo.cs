@@ -147,6 +147,21 @@ public async Task UpdateGameCompleted(string gameID, string accuracy, string com
         return new JObject();
     }
 
+    public async Task<JObject> RetriveUserHighestScore(string userID)
+    {
+        string selectQuery = "SELECT TOP 1 * FROM GameStatistics WHERE userID = '" + userID + "' AND gameCompleted = 1 ORDER BY noOfCorrectAnswers DESC;";
+
+        List<string> gameObjects = await dbConnection.ExecuteQueryAsync(selectQuery);
+        _logger.LogInformation(gameObjects.Count.ToString());
+        if (gameObjects.Count > 0)
+        {
+            JObject gameObject = JObject.Parse(gameObjects[0]); // Parse the JSON string into a JObject
+            return gameObject;
+        }
+
+        return new JObject();
+    }
+
 
     public async Task<JArray> RetrieveUserStatsForAllGames(string userID)
     {
