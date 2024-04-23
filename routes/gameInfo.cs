@@ -52,39 +52,45 @@ public class GameInformationRouter
         }
     }
 
-    [Function("getAHighestScore")]
-    public async Task<IActionResult> GetHighestScore(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "game/getHighestGameStats")] HttpRequestData req)
-    {
-        try
-        {
-            _logger.LogInformation("Processing a request to retrive highest score of a user.");
+    
+[Function("getAHighestScore")]
+   public async Task<IActionResult> GetHighestScore(
+       [HttpTrigger(AuthorizationLevel.Function, "get", Route = "game/getHighestGameStats")] HttpRequestData req)
+   {
+       try
+       {
+           _logger.LogInformation("Processing a request to retrive highest score of a user.");
 
-            string? userID = req.Query["userID"];
 
-            if (string.IsNullOrEmpty(userID))
-            {
-                var errorResponse = new { message = "Error: userID is required." };
-                string errorJsonResponse = JsonConvert.SerializeObject(errorResponse);
-                return new BadRequestObjectResult(errorJsonResponse);
-            }
+           string? userID = req.Query["userID"];
 
-            JObject jsonResponse = await _gameService.RetriveUserHighestScore(userID);
 
-            string jsonResult = jsonResponse.ToString();
-            return new ContentResult
-            {
-                Content = jsonResult,
-                ContentType = "application/json",
-                StatusCode = 200
-            };
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error processing the request");
-            return new BadRequestObjectResult("Error: Invalid request.");
-        }
-    }
+           if (string.IsNullOrEmpty(userID))
+           {
+               var errorResponse = new { message = "Error: userID is required." };
+               string errorJsonResponse = JsonConvert.SerializeObject(errorResponse);
+               return new BadRequestObjectResult(errorJsonResponse);
+           }
+
+
+           string jsonResponse = await _gameService.RetriveUserHighestScore(userID);
+
+
+           string jsonObject = $"{{ \"games\": {jsonResponse} }}";
+           return new ContentResult
+           {
+               Content = jsonObject,
+               ContentType = "application/json",
+               StatusCode = 200
+           };
+       }
+       catch (Exception ex)
+       {
+           _logger.LogError(ex, "Error processing the request");
+           return new BadRequestObjectResult("Error: Invalid request.");
+       }
+   }
+
 
 
     [Function("getGameStats")]
